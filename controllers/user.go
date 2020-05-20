@@ -122,3 +122,22 @@ func (this *UserController) HandleReg() {
 	// 注册成功
 	this.Redirect("/login", 302)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
