@@ -1,3 +1,4 @@
 .idea
-0. xian-tao-admin.exe
-0. xian-tao-admin.exe~
+.vscode
+*.exe
+*.exe~
