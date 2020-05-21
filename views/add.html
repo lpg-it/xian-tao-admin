@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鲜淘驿站 - 后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            $(".dels").click(function () {
+                if (!confirm("是否删除？")) {
+                    return false
+                }
+            })
+            $("#select").change(function () {
+                $("#form").submit()
+            })
+        }
+    </script>
+</head>
+<body>
+{{ template "comm/header.html" }}
+{{ template "comm/side_bar.html"}}
+
+<div class="main_body" id="main_body">
+    <div class="breadcrub">
+        当前位置：商品管理>添加商品
+    </div>
+    <div class="pannel">
+        <form method="post" action="/admin/goods-add" enctype="multipart/form-data">
+            <h3 class="review_title">添加商品</h3>
+            <div class="form_group">
+                <label>商品名称：</label>
+                <input type="text" class="input_txt2" name="goodsName" >
+            </div>
+            <div class="form_group">
+                <label>商品类型：</label>
+                <select class="sel_opt" name="selectType">
+                    {{range .goodTypes}}
+                        <option>{{.Name}}</option>
+                    {{end}}
+
+                </select>
+            </div>
+            <div class="form_group">
+                <label>商品SPU：</label>
+                <select class="sel_opt" name="selectGoodsSPU">
+                    {{range .goodSPUs}}
+                        <option>{{.Name}}</option>
+                    {{end}}
+
+                </select>
+            </div>
+            <div class="form_group">
+                <label>商品描述：</label>
+                <textarea class="input_multxt" name="desc"></textarea>
+            </div>
+            <div class="form_group">
+                <label>商品库存：</label>
+                <input type="text" class="input_txt2" name="goodsStock" >
+            </div>
+            <div class="form_group">
+                <label>商品价格：</label>
+                <input type="text" class="input_txt2" name="goodsPrice" >
+            </div>
+            <div class="form_group">
+                <label>商品图片：</label>
+                <input type="file" class="input_file"  name="uploadname">
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="submit" value="添 加" class="confirm">
+                <span>{{.errmsg}}</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

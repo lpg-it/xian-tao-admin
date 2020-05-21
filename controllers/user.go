@@ -74,7 +74,7 @@ func (this *UserController) HandleLogin() {
 	}
 	this.SetSession("userName", userName)
 	// 登录成功，返回后台首页
-	this.Redirect("/admin/", 302)
+	this.Redirect("/", 302)
 }
 
 // 展示注册页面
@@ -118,7 +118,6 @@ func (this *UserController) HandleReg() {
 		this.TplName = "register.html"
 		return
 	}
-
 	// 注册成功
 	this.Redirect("/login", 302)
 }

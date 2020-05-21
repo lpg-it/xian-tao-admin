@@ -13,6 +13,10 @@ github.com/astaxie/beego/utils
 # github.com/go-sql-driver/mysql v1.4.1
 ## explicit
 github.com/go-sql-driver/mysql
+# github.com/gomodule/redigo v2.0.0+incompatible
+## explicit
+github.com/gomodule/redigo/internal
+github.com/gomodule/redigo/redis
 # github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1
 github.com/gopherjs/gopherjs/js
 # github.com/jtolds/gls v4.20.0+incompatible

@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {{.head}}<title>{{.title}}</title>
+    <title>鲜淘驿站 - 后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         window.onload = function () {
             $(".dels").click(function () {
-                if(!confirm("是否删除？")){
+                if (!confirm("是否删除？")) {
                     return false
                 }
             })
@@ -29,10 +29,10 @@
     </div>
     <div class="pannel">
         <span class="sel_label">请选择文章分类：</span>
-        <form id="form" method="get" action="/admin/">
+        <form id="form" method="get" action="/">
             <select name="select" id="select" class="sel_opt">
-                {{range .types}}
-                    {{if compare $.typeName .Name}}
+                {{range .goodTypes}}
+                    {{if compare $.goodsTypeName .Name}}
                         <option selected="true">{{.Name}}</option>
                     {{else}}
                         <option>{{.Name}}</option>
@@ -55,42 +55,42 @@
                 <th width="7%">编辑</th>
 
             </tr>
-            {{range $index ,$val := .goods}}
-
+            {{range $index ,$val := .goodSKUs}}
                 <tr>
                     <td>{{$val.Name}}</td>
-                    <td><a href="/Article/ArticleContent?id={{$val.Id}}">查看详情</a></td>
+                    <td><a href="/admin/goods-detail?id={{$val.Id}}">查看详情</a></td>
                     <td> {{$val.Time.Format "2006-01-02 15:04:05"}}</td>
                     <td>{{$val.Stock}}</td>
-                    <td>{{$val.ArticleType.TypeName}}</td>
+                    <td>{{$val.GoodsType.Name}}</td>
                     <td>{{$val.Price}}</td>
                     <td>{{$val.Sales}}</td>
-                    <td><a href="/Article/DeleteArticle?id={{$val.Id2}}" class="dels">删除</a></td>
-                    <td><a href="/Article/UpdateArticle?id={{$val.Id2}}">编辑</a></td>
+                    <td><a href="/admin/goods-delete?id={{$val.Id}}" class="dels">删除</a></td>
+                    <td><a href="/admin/goods-update?id={{$val.Id}}">编辑</a></td>
 
                 </tr>
             {{end}}
         </table>
 
         <ul class="pagenation">
-            <li><a href="/Article/ShowArticle?pageIndex=1&select={{.typeName}}">首页</a></li>
+            <li><a href="/?pageIndex=1&select={{.goodsTypeName}}">首页</a></li>
             {{if compare .FirstPage true}}
-                <li>上一页 </li>
+                <li>上一页</li>
             {{else}}
-                <li><a href="/Article/ShowArticle?pageIndex={{.pageIndex | ShowPrePage}}&select={{.typeName}}">上一页</a></li>
+                <li><a href="/?pageIndex={{ .pageIndex | ShowPrePage}}&select={{.goodsTypeName}}">上一页</a>
+                </li>
             {{end}}
             {{if compare .EndPage true}}
                 <li>下一页</li>
             {{else}}
-                <li> <a href="/Article/ShowArticle?pageIndex={{ShowNextPage .pageIndex .pageCount}}&select={{.typeName}}">下一页</a></li>
+                <li>
+                    <a href="/?pageIndex={{.pageIndex | ShowNextPage}}&select={{ .goodsTypeName }}">下一页</a>
+                </li>
             {{end}}
-            <li><a href="/Article/ShowArticle?pageIndex={{.pageCount}}"&select={{.typeName}}>末页</a></li>
+            <li><a href="/?pageIndex={{.pageCount}}" &select={{.typeName}}>末页</a></li>
             <li>共{{.count}}条记录/共{{.pageCount}}页/当前{{.pageIndex}}页</li>
         </ul>
     </div>
 </div>
-
-
 
 </body>
 </html>

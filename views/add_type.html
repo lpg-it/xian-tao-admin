@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鲜淘驿站 - 后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            $(".dels").click(function () {
+                if (!confirm("是否删除？")) {
+                    return false
+                }
+            })
+            $("#select").change(function () {
+                $("#form").submit()
+            })
+        }
+    </script>
+</head>
+<body>
+{{ template "comm/header.html" }}
+{{ template "comm/side_bar.html"}}
+<div class="main_body" id="main_body">
+    <div class="breadcrub">
+        当前位置：商品管理>添加分类
+    </div>
+    <div class="pannel">
+        <table class="common_table">
+            <tr>
+                <th width="10%">id</th>
+
+                <th width="50%">类别名称</th>
+                <th width="20%">详情</th>
+                <th width="20%">管理操作</th>
+            </tr>
+            {{range $index,$val :=.goodsTypes}}
+                <tr>
+                    <td>{{$val.Id}}</td>
+                    <td>{{$val.Name}}</td>
+                    <td><a href="/">查看详情</a></td>
+                    <td><a href="/?id={{$val.Id}}" class="edit">删除</a></td>
+                </tr>
+            {{end}}
+
+        </table>
+        <div class="pannel">
+            <form method="post" action="/admin/type-add" enctype="multipart/form-data">
+                <h3 class="review_title">添加商品类型</h3>
+                <div class="form_group">
+                    <label>商品类型名称：</label>
+                    <input type="text" class="input_txt2" name="typeName" >
+                </div>
+                <div class="form_group">
+                    <label>商品类型logo：</label>
+                    <input type="file" class="input_file"  name="uploadlogo">
+                </div>
+                <div class="form_group">
+                    <label>商品类型图片：</label>
+                    <input type="file" class="input_file"  name="uploadTypeImage">
+                </div>
+                <div class="form_group indent_group line_top">
+                    <input type="submit" value="添 加" class="confirm">
+                    <span>{{.errmsg}}</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
