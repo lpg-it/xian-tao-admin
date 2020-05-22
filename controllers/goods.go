@@ -3,10 +3,13 @@ package controllers
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/gomodule/redigo/redis"
+	"github.com/keonjeo/fdfs_client"
 	"math"
+	"path"
 	"xian-tao-admin/models"
 )
 
@@ -24,19 +27,34 @@ func UploadFile(this *beego.Controller, filePath string) string {
 		return "NoImg"
 	}
 	if err != nil {
-		this.Data["errMsg"] = "文件上传失败"
-		this.TplName = "add_type.html"
-		return ""
+		return "文件上传失败"
 	}
 	defer file.Close()
 
+	ext := path.Ext(head.Filename)
+
+
 	// 文件大小
 	if head.Size > 50000000 {
-		this.Data["errMsg"] = "文件太大，请重新上传"
-		this.TplName = "add_type.html"
+		return "文件太大，请重新上传"
+	}
+	client, err := fdfs_client.NewFdfsClient("etc/fdfs/client.conf")
+	if err != nil {
+		fmt.Println("fdfs连接错误", err)
 		return ""
 	}
-	return "/static/img/" + head.Filename
+	// 获取字节数组，大小和文件相等
+	fileBuffer := make([]byte, head.Size)
+	// 把文件字节流写入到字节数组中
+	file.Read(fileBuffer)
+	// 上传
+	res, err := client.UploadByBuffer(fileBuffer, ext[1:])
+	if err != nil {
+		fmt.Println("fdfs上传失败")
+		return ""
+	}
+	fmt.Println("文件上传成功")
+	return res.RemoteFileId
 }
 
 // 展示首页

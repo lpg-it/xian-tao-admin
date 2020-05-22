@@ -42,8 +42,8 @@ type Goods struct {
 type GoodsType struct {
 	Id int
 	Name string `orm:"size(20)"`  // 类型名称
-	Logo string `orm:"size(20)"` // 类型Logo
-	Image string `orm:"size(20)"`  // 类型图片
+	Logo string  // 类型Logo
+	Image string   // 类型图片
 	GoodsSKU []*GoodsSKU `orm:"reverse(many)"`
 	IndexTypeGoodsBanner []*IndexTypeGoodsBanner `orm:"reverse(many)"`  // 首页分类商品
 }
@@ -51,24 +51,24 @@ type GoodsType struct {
 // 商品图片表
 type GoodsImage struct {
 	Id int
-	Image string `orm:"size(20)"`  // 商品图片
+	Image string  // 商品图片
 	GoodsSKU *GoodsSKU `orm:"rel(fk)"`  // 商品SKU
 }
 
 // 商品SKU表
 type GoodsSKU struct {
 	Id int
+	Goods *Goods `orm:"rel(fk)"`  // 商品SPU
+	GoodsType *GoodsType `orm:"rel(fk)"`  // 商品类型
 	Name string `orm:"size(50)"`  // 商品名称
 	Desc string `orm:"size(100)"`  // 商品简介
 	Price int  // 商品价格
 	Unite string `orm:"size(20)"`  // 商品单位
-	Image string `orm:"size(20)"`  // 商品图片
+	Image string   // 商品图片
 	Stock int `orm:"default(1)"`  // 商品库存
 	Sales int `orm:"default(0)"`  // 商品销量
 	Status int `orm:"default(1)"`  // 商品状态：是否有效，默认有效
 	Time time.Time `orm:"type(datetime);auto_now_add"`  // 添加时间
-	Goods *Goods `orm:"rel(fk)"`  // 商品SPU
-	GoodsType *GoodsType `orm:"rel(fk)"`  // 商品类型
 	GoodsImage []*GoodsImage `orm:"reverse(many)"`  // 商品图片
 	IndexGoodsBanner []*IndexGoodsBanner `orm:"reverse(many)"`
 	IndexTypeGoodsBanner []*IndexTypeGoodsBanner `orm:"reverse(many)"`
@@ -78,9 +78,10 @@ type GoodsSKU struct {
 // 首页轮播商品展示表
 type IndexGoodsBanner struct {
 	Id int
-	Image string `orm:"size(20)"`  // 商品图片
-	Index int `orm:"default(0)"`  // 商品展示顺序
 	GoodsSKU *GoodsSKU `orm:"rel(fk)"`
+	Image string   // 商品图片
+	Index int `orm:"default(0)"`  // 商品展示顺序
+
 }
 
 // 首页分类商品展示表
@@ -97,18 +98,18 @@ type IndexPromotionBanner struct {
 	Id int
 	Name string `orm:"size(20)"`  // 活动名称
 	Url string `orm:"size(50)"`  // 活动链接
-	Image string `orm:"size(20)"`  // 活动图片
+	Image string   // 活动图片
 	Index int `orm:"default(0)"`  // 展示顺序
 }
 
 // 订单商品表
 type OrderGoods struct {
 	Id int
+	OrderInfo *OrderInfo `orm:"rel(fk)"`
 	GoodsSKU *GoodsSKU `orm:"rel(fk)"`
 	Count int `orm:"default(1)"`  // 商品数量
 	Price int // 商品价格
 	Comment string `orm:"default('');size(200)"`  // 评论内容
-	OrderInfo *OrderInfo `orm:"rel(fk)"`
 }
 
 // 订单表
